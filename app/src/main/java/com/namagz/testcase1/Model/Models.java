@@ -7,8 +7,15 @@ import java.util.Map;
  * Created by user on 2/29/16.
  */
 public class Models {
-    private String id;
-    private String files;
+    public String url;
+    public String forksUrl;
+    public String commitsUrl;
+    public String id;
+    public String gitPullUrl;
+    public String gitPushUrl;
+    public String htmlUrl;
+    public Map<String, File> files;
+
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -29,14 +36,22 @@ public class Models {
         this.id = id;
     }
 
-    public String getFiles() {
-        return files;
-    }
 
-    public void setFiles(String files) {
-        this.files = files;
-    }
+    public static class File {
+        public String filename;
+        public String type;
+        public String language;
+        public String rawUrl;
+        public long size;
 
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
+        }
+    }
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
     }

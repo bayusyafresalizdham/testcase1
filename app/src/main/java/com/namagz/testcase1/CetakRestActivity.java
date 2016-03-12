@@ -12,6 +12,7 @@ import com.namagz.testcase1.Model.Models;
 import com.namagz.testcase1.rest.RestApi;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +27,9 @@ public class CetakRestActivity extends AppCompatActivity {
     public static final String ROOT_URL = "https://api.github.com/";
     private ListView listview;
     private List<Models> commit;
+
+    String arr[] = new String[9000];
+    private List<Models.File> commit1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +52,19 @@ public class CetakRestActivity extends AppCompatActivity {
 
                     //memasukkan data dari varibel buku ke books
                     commit = commitall;
-                    Log.d("call", "call" + response.body());
-                    loading.dismiss();
+
+                    int counter=0;
+                    for (Models models : response.body()) {
+                        for (Map.Entry<String, Models.File> file : models.files.entrySet()) {
+                            Log.e("File", file.getKey());
+                            Log.e("File", file.getValue().type);
+                            arr[counter]=file.getValue().type;
+
+                        } counter++;
+                    }
+                    for(int a = 0;a<counter;a++){
+                        Log.e("asc","as"+arr[a]);
+                    }
                     showList();
                 } catch (Exception e) {
 
@@ -68,7 +83,7 @@ public class CetakRestActivity extends AppCompatActivity {
 
         for (int i = 0; i < commit.size(); i++) {
 
-            items[i] = commit.get(i).getId()+commit.get(i).getFiles();
+            items[i] = commit.get(i).getId() +"\n"+ arr[i];
         }
         //Membuat Array Adapter for listview
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, items);
